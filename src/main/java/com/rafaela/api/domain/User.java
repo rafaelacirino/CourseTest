@@ -1,13 +1,16 @@
 package com.rafaela.api.domain;
 
-import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class User {
 
     @Id
