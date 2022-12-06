@@ -1,9 +1,11 @@
 package com.rafaela.api.services.impl;
 
 import com.rafaela.api.domain.User;
+import com.rafaela.api.domain.dto.UserDTO;
 import com.rafaela.api.repositories.UserRepository;
 import com.rafaela.api.services.UserService;
 import com.rafaela.api.services.exceptions.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private UserRepository repository;
@@ -24,5 +29,10 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findAll(){
         return repository.findAll();
+    }
+
+    @Override
+    public User create(UserDTO obj) {
+        return repository.save(mapper.map(obj, User.class));
     }
 }
