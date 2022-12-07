@@ -3,6 +3,7 @@ package com.rafaela.api.services.impl;
 import com.rafaela.api.domain.User;
 import com.rafaela.api.domain.dto.UserDTO;
 import com.rafaela.api.repositories.UserRepository;
+import com.rafaela.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,6 +26,7 @@ class UserServiceImplTest {
     public static final String PASSWORD = "123";
     public static final String NAME     = "Rafaela";
     public static final String EMAIL    = "rafaela@rafaela.com";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     @InjectMocks
     private UserServiceImpl service;
 
@@ -57,6 +59,20 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        //qdo chamar o método findById estoura exceção ObjectNotFoundException com a mensagem
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+
+        try{
+            service.findById(ID);
+        } catch(Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+
+        }
     }
 
     @Test
