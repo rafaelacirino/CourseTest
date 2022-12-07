@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("objeto não encontrado"));
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
     public List<User> findAll(){
@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
     public User update(UserDTO obj) {
         findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        findById(id);
+        repository.deleteById(id);
     }
 
     private void findByEmail(UserDTO obj){
