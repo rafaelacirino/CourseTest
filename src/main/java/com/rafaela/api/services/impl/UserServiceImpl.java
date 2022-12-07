@@ -4,6 +4,7 @@ import com.rafaela.api.domain.User;
 import com.rafaela.api.domain.dto.UserDTO;
 import com.rafaela.api.repositories.UserRepository;
 import com.rafaela.api.services.UserService;
+import com.rafaela.api.services.exceptions.DataIntegratyViolationException;
 import com.rafaela.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
+    }
+
+    private void findByEmail(UserDTO obj){
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent()){
+            throw new DataIntegratyViolationException("Email já cadastrado no sistema");
+        }
     }
 }
