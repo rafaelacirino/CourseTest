@@ -1,5 +1,5 @@
 # CourseTest
 
-##JUnit, Mockito, Java 17
+## Unit, Mockito, Java 17
 
-##100% coverage
+100% coverage
